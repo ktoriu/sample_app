@@ -7,7 +7,7 @@ class SessionsController < ApplicationController
 		if user && user.authenticate(params[:session][:password])
 			#ユーザーをサインインさせ、showにリダイレクト
 			sign_in user
-			redirect_to user
+			redirect_back_or user
 		else
 			#エラーメッセージを表示して、サインインを再表示
 			flash.now[:error] = 'Invalid email/pasword combination'
