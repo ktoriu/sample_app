@@ -18,6 +18,8 @@ describe "Authentication" do
 
 			it { should have_title('Sign in') }
 			it { should have_selector('div.alert.alert-error', text: 'Invalid')}
+			it { should_not have_link('Profile') }
+			it { should_not have_link('Setting') }
 
 			describe "after visiting another page" do
 				before { click_link "Home" }
@@ -114,6 +116,31 @@ describe "Authentication" do
 				specify { expect(response).to redirect_to(root_path) }
 			end
 		end
+
+		describe "as signed-in user visiting sign up page" do 
+			let(:user) { FactoryGirl.create(:user) }
+				before do 
+					sign_in user, no_capybara: true
+					get signup_path
+				end
+				specify { expect(response).to redirect_to(root_path) }
+		end
+
+		describe "as signed-in user posting signup data" do 
+			let(:user) { FactoryGirl.create(:user) }
+			let(:params) do 
+				{user: {name: "Tester", email: "test@example.com", password: "password", password_confirmation: "password"}} 
+			end
+
+			before  do
+				sign_in user, no_capybara: true
+				post users_path, params
+			end
+
+			specify { expect(response).to redirect_to(root_path) }
+		end
+
+
 	end
 
 end

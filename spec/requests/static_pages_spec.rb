@@ -12,13 +12,25 @@ describe "Static pages" do
   end
 
   describe "Home page" do
-    before { visit root_path }
+    describe "without signed-in status" do 
+      before { visit root_path }
 
-    let(:heading) { 'Sample App' }
-    let(:page_title) { '' }
+      let(:heading) { 'Sample App' }
+      let(:page_title) { '' }
 
-    it_should_behave_like "all static pages"
-    it { should_not have_title('Home')}
+      it_should_behave_like "all static pages"
+      it { should_not have_title('Home')}
+    end
+
+    describe "with signed-in status" do 
+      let(:user) { FactoryGirl.create(:user) }
+      before do 
+        sign_in user
+        visit root_path
+      end
+
+      it { should_not have_content('Sign up now!') }
+    end
 
   end
 
