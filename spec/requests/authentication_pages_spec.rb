@@ -86,6 +86,19 @@ describe "Authentication" do
 					it { should have_title('Sign in')}
 				end
 			end
+
+			describe "in the Microposts controller" do
+
+		        describe "submitting to the create action" do
+		          before { post microposts_path }
+		          specify { expect(response).to redirect_to(signin_path) }
+		        end
+
+		        describe "submitting to the destroy action" do
+		          before { delete micropost_path(FactoryGirl.create(:micropost)) }
+		          specify { expect(response).to redirect_to(signin_path) }
+		        end
+		    end
 		end
 
 		describe "as wrong user" do 
@@ -95,7 +108,6 @@ describe "Authentication" do
 
 			describe "submitting a GET request to the Users#edit action" do 
 				before { get edit_user_path(wrong_user) }
-				specify { expect(response.body).not_to match(full_title('Edit user')) }
 				specify { expect(response).to redirect_to(root_url) }
 			end
 
