@@ -5,11 +5,13 @@ class UsersController < ApplicationController
   before_action :is_signed_in, only: [:new, :create]
 
   def index
-    @users = User.order(:name).paginate(page: params[:page], per_page: 30)
+    # @users = User.order(:name).paginate(page: params[:page], per_page: 30)
+    @users = User.paginate(page: params[:page], per_page: 30)
   end
 
   def show
     @user = User.find(params[:id])
+    @microposts = @user.microposts.paginate(page: params[:page])
   end
 
   def new
