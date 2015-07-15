@@ -7,6 +7,28 @@
   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
   <%= csrf_meta_tags %>
   <%= render 'layouts/shim' %>
+  <%= javascript_include_tag "http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" %>
+  <script type="text/javascript">
+	$(function(){
+	    var countMax = 140;
+	    $('textarea').bind('keydown keyup keypress change',function(){
+	        var thisValueLength = $(this).val().length;
+	        var countDown = (countMax)-(thisValueLength);
+	        $('.count').html(countDown);
+	 
+	        if(countDown < 0){
+	            $('.count').css({color:'#ff0000',fontWeight:'bold'});
+	        } else {
+	            $('.count').css({color:'#000000',fontWeight:'normal'});
+	        }
+	    });
+	    $(window).load(function(){
+	        $('.count').html(countMax);
+	    });
+	});
+	</script>
+
+
 
 </head>
 
